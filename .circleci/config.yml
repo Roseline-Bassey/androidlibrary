@@ -52,7 +52,7 @@ jobs:
 workflows :
    andriod :
       jobs :
-        -build
+        build
  
 
  

@@ -47,14 +47,14 @@ jobs:
          executor:
               name: android/android -machine
 
-            steps:
-                - checkout
-                - android /run-tests:
-                        test-command: ./gradlew lint testDebug --continue
+         steps:
+               - checkout
+               - android /run-tests:
+                     test-command: ./gradlew lint testDebug --continue
      - android/start-emulator-and-run-tests:
-                       test-command: ./gradlew connectedDebugAndroidTest
+                     test-command: ./gradlew connectedDebugAndroidTest
                       system-image: system-images;android-25;google_apis;x86
-              - run:
+               - run:
                    name: Assemble release build
                    command: |
                         ./gradlew assembleRelease 

@@ -48,7 +48,6 @@ jobs:
       command:./gradlew clean assemble
 
      steps:
-      - checkout
       - android /run-tests:
           test-command: ./gradlew lint testDebug --continue
       - android/start-build-and-run-tests:

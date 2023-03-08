@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 
 
 config_docker: &config_docker
@@ -41,7 +41,6 @@ update_cache: &update_cache
       - ~/.gradle/wrapper
     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
-
 jobs:
   job_run_tests:
     <<: *config_docker
@@ -70,8 +69,13 @@ jobs:
 
 workflows:
   version: 2
-
-  # run tests on every commits to master
-  run-tests-only:
+  build_and_test:
     jobs:
-      - job_run_tests
+      - build
+
+  
+
+
+
+
+

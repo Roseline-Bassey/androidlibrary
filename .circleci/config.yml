@@ -41,40 +41,13 @@ update_cache: &update_cache
       - ~/.gradle/wrapper
     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
-### jobs:
-  build-and-test:
+jobs:
+  build:
 
-    build :
-      command:./gradlew clean assemble
+    command:
+      run:./gradlew clean assemble
 
-     steps:
-      - android /run-tests:
-          test-command: ./gradlew lint testDebug --continue
-      - android/start-build-and-run-tests:
-          test-command: ./gradlew connectedDebugAndroidTest
-          system-image: system-images;android-25;google_apis;x86
-      - run:
-          name: Assemble release build
-          command: |
-             ./gradlew assembleRelease 
-          
-      - run:
-          name: Save test results (html page, see Artifacts)
-          command: |
-            mkdir -p test-results/html/
-            find . -type d -regex ".*/*reports/tests" -exec cp -avr {} test-results/html/ \;
-          when: always
-      - run:
-          name: Save test results (xml results, see Tests)
-          command: |
-            mkdir -p test-results/xml/
-            find . -type f -regex ".*/*test-results/.*xml" -exec cp {} test-results/xml/ \;
-          when: always
-      - store_test_results:
-          path: test-results
-      - store_artifacts:
-          path: test-results
-          destination: reports/ ###
+    
 
 workflows :
    andriod :

@@ -42,13 +42,32 @@ update_cache: &update_cache
     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
 jobs:
-  job_run_tests:
-    <<: *config_docker
-    <<: *config_env
-    steps:
-      - run:
-          name: Run Tests
-          command: ./gradlew testDebug
+    build-and-test:
+
+         executor:
+              name: android/android -machine
+
+            steps:
+                - checkout
+                - android /run-tests:
+                        test-command: ./gradlew lint testDebug --continue
+     - android/start-emulator-and-run-tests:
+                       test-command: ./gradlew connectedDebugAndroidTest
+                      system-image: system-images;android-25;google_apis;x86
+              - run:
+                   name: Assemble release build
+                   command: |
+                        ./gradlew assembleRelease 
+
+
+
+    
+
+           
+
+
+          
+          
       - run:
           name: Save test results (html page, see Artifacts)
           command: |
@@ -67,11 +86,15 @@ jobs:
           path: test-results
           destination: reports/
 
-workflows:
-  version: 2
-  build_and_test:
-    jobs:
-      - build
+workflows :
+      andriod :
+
+           jobs :
+                -build-and-test
+ 
+
+ 
+     
 
   
 

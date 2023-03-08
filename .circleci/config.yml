@@ -42,22 +42,22 @@ update_cache: &update_cache
     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
 jobs:
-    build-and-test:
+  build-and-test:
 
-         executor:
-              name: android/android -machine
+    executor:
+      name: android/android -machine
 
-         steps:
-               - checkout
-               - android /run-tests:
-                     test-command: ./gradlew lint testDebug --continue
-     - android/start-emulator-and-run-tests:
-                     test-command: ./gradlew connectedDebugAndroidTest
-                      system-image: system-images;android-25;google_apis;x86
-               - run:
-                   name: Assemble release build
-                   command: |
-                        ./gradlew assembleRelease 
+     steps:
+      - checkout
+      - android /run-tests:
+          test-command: ./gradlew lint testDebug --continue
+      - android/start-emulator-and-run-tests:
+          test-command: ./gradlew connectedDebugAndroidTest
+          system-image: system-images;android-25;google_apis;x86
+      - run:
+          name: Assemble release build
+          command: |
+             ./gradlew assembleRelease 
 
 
 
@@ -66,7 +66,7 @@ jobs:
            
 
 
-          
+
           
       - run:
           name: Save test results (html page, see Artifacts)

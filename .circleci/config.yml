@@ -44,29 +44,20 @@ update_cache: &update_cache
 jobs:
   build-and-test:
 
-    executor:
-      name: android/android-machine
+    build :
+      command:./gradlew clean assemble
 
      steps:
       - checkout
       - android /run-tests:
           test-command: ./gradlew lint testDebug --continue
-      - android/start-emulator-and-run-tests:
+      - android/start-build-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
       - run:
           name: Assemble release build
           command: |
              ./gradlew assembleRelease 
-
-
-
-    
-
-           
-
-
-
           
       - run:
           name: Save test results (html page, see Artifacts)
@@ -87,10 +78,9 @@ jobs:
           destination: reports/
 
 workflows :
-      andriod :
-
-           jobs :
-                -build-and-test
+   andriod :
+      jobs :
+        -build-and-test
  
 
  

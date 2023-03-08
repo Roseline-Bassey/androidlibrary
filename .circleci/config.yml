@@ -41,7 +41,7 @@ update_cache: &update_cache
       - ~/.gradle/wrapper
     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
-jobs:
+### jobs:
   build-and-test:
 
     build :
@@ -74,12 +74,12 @@ jobs:
           path: test-results
       - store_artifacts:
           path: test-results
-          destination: reports/
+          destination: reports/ ###
 
 workflows :
    andriod :
       jobs :
-        -build-and-test
+        -build
  
 
  

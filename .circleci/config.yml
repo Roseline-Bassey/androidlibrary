@@ -32,17 +32,7 @@ update_cache: &update_cache
          
 jobs:
   job_run_tests:
-    <<: *config_docker
-    <<: *config_env
-    steps:
-      - <<: *update_sdk
-      - checkout
-      # Docker caching is not available in free plans
-      - <<: *cache_docker
-      - <<: *restore_cache
-      - <<: *fix_permissions
-      - <<: *update_dependencies
-      - <<: *update_cache
+    
       - run:
           name: Run Tests
           command: ./gradlew testDebug

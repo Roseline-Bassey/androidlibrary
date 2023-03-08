@@ -45,7 +45,7 @@ jobs:
   build-and-test:
 
     executor:
-      name: android/android -machine
+      name: android/android-machine
 
      steps:
       - checkout

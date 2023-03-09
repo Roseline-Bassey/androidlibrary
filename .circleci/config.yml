@@ -46,7 +46,7 @@ jobs:
 
       # And finally run the release build
       - run:
-          name: Android build
+          name: Assemble release build
           command: |
              cd androidlibrary
             ./gradlew clean assemble

@@ -25,17 +25,17 @@ orbs:
     update_sdk: &update_sdk
       run:
         name: Update SDK
-         command: |
-              yes | sdkmanager --licenses || true
-              sdkmanager "platform-tools" "platforms;android-31"
+          command: |
+            yes | sdkmanager --licenses || true
+            sdkmanager "platform-tools" "platforms;android-31"
     restore_cache: &restore_cache
       restore_cache:
         key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
     fix_permissions: &fix_permissions
-       run:
-           name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-           command: sudo chmod +x ./gradlew
+      run:
+         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+         command: sudo chmod +x ./gradlew
 
     update_dependencies: &update_dependencies
         run:
@@ -50,16 +50,16 @@ orbs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
 
       # The next step will run the unit tests
-   - android/run-tests:
+  - android/run-tests:
       test-command: ./gradlew lint testDebug --continue
 
       # Then start the emulator and run the Instrumentation tests!
-   - android/start-emulator-and-run-tests:
+  - android/start-emulator-and-run-tests:
        test-command: ./gradlew connectedDebugAndroidTest
        system-image: system-images;android-25;google_apis;x86
 
       # And finally run the release build
-   - run:
+  - run:
         name: Andriod build
          command: |
          ./gradlew clean assembleRelease

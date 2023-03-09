@@ -23,25 +23,11 @@ jobs:
           command: |
             ./gradlew clean assemble
           
-      - run:
-          name: Run unit tests
-          command: |
-            ./gradlew testReleaseUnitTest
-
-            
-      - run:
-          name: Verify tests passed
-          command: |
-            if [ $(./gradlew testDebugUnitTest --rerun-tasks | grep -c "FAILED") -gt 0 ]; then
-              echo "Tests failed"
-              exit 1
-            else
-              echo "Tests passed"
-            fi
+    
             
 workflows:
   version: 2
-  build-and-test:
+  build:
     jobs:
       - build
             

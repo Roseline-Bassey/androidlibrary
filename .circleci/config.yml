@@ -26,8 +26,8 @@ orbs:
       run:
         name: Update SDK
           command: |
-                yes | sdkmanager --licenses || true
-                sdkmanager "platform-tools" "platforms;android-31"
+               yes | sdkmanager --licenses || true
+               sdkmanager "platform-tools" "platforms;android-31"
     restore_cache: &restore_cache
       restore_cache:
         key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
@@ -47,22 +47,22 @@ orbs:
           paths:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
-              key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
+            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
 
       # The next step will run the unit tests
     - android/run-tests:
-        test-command: ./gradlew lint testDebug --continue
+       test-command: ./gradlew lint testDebug --continue
 
       # Then start the emulator and run the Instrumentation tests!
     - android/start-emulator-and-run-tests:
-          test-command: ./gradlew connectedDebugAndroidTest
-          system-image: system-images;android-25;google_apis;x86
+        test-command: ./gradlew connectedDebugAndroidTest
+        system-image: system-images;android-25;google_apis;x86
 
       # And finally run the release build
     - run:
           name: Andriod build
           command: |
-            ./gradlew clean assembleRelease
+          ./gradlew clean assembleRelease
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows

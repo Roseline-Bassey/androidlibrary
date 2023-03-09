@@ -20,7 +20,8 @@ jobs:
        
       - run:
           name: build
-          command: gredlew clean assemble
+          command: |
+            ./gradlew clean assemble
           
       - run:
           name: Run unit tests

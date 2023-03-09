@@ -1,6 +1,16 @@
 version: 2
 jobs:
+  build:jobs:
   build:
+    docker:
+      - image: cimg/android:2023.02
+    steps:
+jobs:
+  build:
+    docker:
+      - image: cimg/android:2023.02
+    steps:
+      - checkout
 
   config_docker: &config_docker
   docker:

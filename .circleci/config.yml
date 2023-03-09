@@ -20,7 +20,7 @@ jobs:
        
       - run:
           name: build
-          command: ./gredlew build assemble
+          command: gredlew clean assemble
           
       - run:
           name: Run unit tests

@@ -17,6 +17,8 @@ jobs:
       - run:
           command: ls
       - run:
+          command: cd androidlibrary_lib
+      - run:
           name: Build and Run Unit Tests
           
           command: |

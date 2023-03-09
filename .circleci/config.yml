@@ -26,8 +26,8 @@ orbs:
       run:
         name: Update SDK
           command: |
-               yes | sdkmanager --licenses || true
-               sdkmanager "platform-tools" "platforms;android-31"
+              yes | sdkmanager --licenses || true
+              sdkmanager "platform-tools" "platforms;android-31"
     restore_cache: &restore_cache
       restore_cache:
         key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
@@ -47,7 +47,7 @@ orbs:
           paths:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
-            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
 
       # The next step will run the unit tests
     - android/run-tests:

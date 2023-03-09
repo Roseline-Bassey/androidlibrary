@@ -15,51 +15,51 @@ orbs:
       - checkout
         
 
-config_env: &config_env
-  environment:
-    JAVA_HOME: "/usr/lib/jvm/java-11-openjdk-amd64"
-    JAVA_TOOL_OPTIONS: "-Xmx4096m -XX:+UseParallelGC"
-    GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.workers.max=2 -Dkotlin.incremental=true -Dkotlin.compiler.execution.strategy=in-process"
-    TERM: dumb
+    config_env: &config_env
+      environment:
+        JAVA_HOME: "/usr/lib/jvm/java-11-openjdk-amd64"
+        JAVA_TOOL_OPTIONS: "-Xmx4096m -XX:+UseParallelGC"
+        GRADLE_OPTS: "-Dorg.gradle.daemon=true -Dorg.gradle.workers.max=2 -Dkotlin.incremental=true -Dkotlin.compiler.execution.strategy=in-process"
+        TERM: dumb
 
-update_sdk: &update_sdk
-  run:
-    name: Update SDK
-    command: |
-      yes | sdkmanager --licenses || true
-      sdkmanager "platform-tools" "platforms;android-31"
-restore_cache: &restore_cache
-  restore_cache:
-    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+    update_sdk: &update_sdk
+      run:
+        name: Update SDK
+           command: |
+              yes | sdkmanager --licenses || true
+              sdkmanager "platform-tools" "platforms;android-31"
+     restore_cache: &restore_cache
+       restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
-fix_permissions: &fix_permissions
-  run:
-    name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-    command: sudo chmod +x ./gradlew
+    fix_permissions: &fix_permissions
+       run:
+           name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+           command: sudo chmod +x ./gradlew
 
-update_dependencies: &update_dependencies
-  run:
-    name: Download Dependencies
-    command: ./gradlew dependencies
+     update_dependencies: &update_dependencies
+        run:
+            name: Download Dependencies
+            command: ./gradlew dependencies
 
-update_cache: &update_cache
-  save_cache:
-    paths:
-      - ~/.gradle/caches
-      - ~/.gradle/wrapper
-    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
+     update_cache: &update_cache
+       save_cache:
+          paths:
+             - ~/.gradle/caches
+             - ~/.gradle/wrapper
+               key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
 
       # The next step will run the unit tests
-  - android/run-tests:
+      - android/run-tests:
           test-command: ./gradlew lint testDebug --continue
 
       # Then start the emulator and run the Instrumentation tests!
- - android/start-emulator-and-run-tests:
+      - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
 
       # And finally run the release build
- - run:
+      - run:
           name: Andriod build
           command: |
             ./gradlew clean assembleRelease

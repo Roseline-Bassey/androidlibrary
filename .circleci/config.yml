@@ -7,11 +7,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install Dependencies
-          command: |
-            yes | sdkmanager "build-tools;30.0.3" >/dev/null
-            yes | sdkmanager "platforms;android-30" >/dev/null
-            yes | sdkmanager --update >/dev/null
+         
+          name: chmod permissions
+          command: chmod +x ./gradlew
+          
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - run:
           name: Build and Run Unit Tests
           command: |

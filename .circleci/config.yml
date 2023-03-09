@@ -16,10 +16,12 @@ jobs:
           command: ./gradlew androidDependencies
       - run:
           command: ls
+          
       - run:
           name: Run unit tests
           command: |
-            ./gradlew test
+            ./gradlew test assemble
+            
       - run:
           name: Verify tests passed
           command: |

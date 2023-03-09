@@ -20,7 +20,8 @@ jobs:
           name: Build and Run Unit Tests
           
           command: |
-            ./gradlew -p androidlibrary_lib testDebugUnitTest
+            ./gradlew build assemble testDebugUnitTest
+            
 
             
             

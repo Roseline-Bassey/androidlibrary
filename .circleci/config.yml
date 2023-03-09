@@ -17,12 +17,24 @@ jobs:
       - run:
           command: ls
       - run:
-          command: cd androidlibrary_lib
-      - run:
-          name: Build and Run Unit Tests
-          
+          name: Run unit tests
           command: |
-            ./gradlew build testDebugUnitTest 
+            ./gradlew test
+      - run:
+          name: Verify tests passed
+          command: |
+            if [ $(./gradlew testDebugUnitTest --rerun-tasks | grep -c "FAILED") -gt 0 ]; then
+              echo "Tests failed"
+              exit 1
+            else
+              echo "Tests passed"
+            fi
+            
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build
             
 
             

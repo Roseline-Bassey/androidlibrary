@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/android:api-30
-    working_directory: ~/andriodlibrary
+    working_directory: ~/androidlibrary
     steps:
       - checkout
       - run:

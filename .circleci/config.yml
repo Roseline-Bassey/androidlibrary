@@ -14,13 +14,19 @@ jobs:
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
+          
       - run:
           command: ls
+       
+      - run:
+          name: build
+          command: ./gredlew build assemble
           
       - run:
           name: Run unit tests
           command: |
-            ./gradlew test assemble
+            ./gradlew testDebug
+
             
       - run:
           name: Verify tests passed

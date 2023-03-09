@@ -16,8 +16,9 @@ jobs:
           command: ./gradlew androidDependencies
       - run:
           name: Build and Run Unit Tests
+          command: ls
           command: |
-            ./gradlew build testDebugUnitTest
+            ./gradlew -p androidlibrary_lib/src/test testDebugUnitTest
 
             
             

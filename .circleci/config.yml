@@ -6,6 +6,8 @@ config_docker: &config_docker
     - image: cimg/android:2021.10.2
   resource_class: large
   working_directory:  ~/code
+steps:
+      - checkout
 
 config_env: &config_env
   environment:
@@ -39,26 +41,18 @@ update_cache: &update_cache
     paths:
       - ~/.gradle/caches
       - ~/.gradle/wrapper
-    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }
 
-jobs:
-  build:
 
-    command:
-      run:./gradlew clean assemble
-
-    
-
-workflows :
-   andriod :
-      jobs :
-        build
- 
-
- 
-     
-
-  
+      - run:
+          name: Build the android 
+          command: |
+            cd androidlibrary
+            ./gradlew clean assembly
+workflows:
+  build-workflow:
+    jobs:
+      - build
 
 
 

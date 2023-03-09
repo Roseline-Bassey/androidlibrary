@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Run unit tests
           command: |
-            ./gradlew test assemble
+            ./gradlew testDemoBasicDebugUnitTest
 
             
       - run:

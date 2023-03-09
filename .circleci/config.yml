@@ -28,9 +28,7 @@ jobs:
             yes | sdkmanager --licenses || true
             sdkmanager "platform-tools" "platforms;android-31"
 
-      restore_cache: &restore_cache
-        restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      
           
       - run:
           name: chmod permissions
@@ -40,12 +38,7 @@ jobs:
           name: Download Dependencies
           command: ./gradlew androidDependencies
           
-      update_cache: &update_cache
-        save_cache:
-          paths:
-            - ~/.gradle/caches
-            - ~/.gradle/wrapper
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      
           
       - store_artifacts:
           path: app/build/reports
@@ -69,7 +62,7 @@ jobs:
       - run:
           name: Assemble release build
           command: |
-            cd androidlibrary
+            
             ./gradlew clean assemble
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows

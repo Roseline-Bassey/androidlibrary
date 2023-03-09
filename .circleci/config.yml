@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            ./gradlew lint test
+            ./gradlew connectedSnapshotBasicDebugAndroidTest
           
     
             

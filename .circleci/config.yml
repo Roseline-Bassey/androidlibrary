@@ -22,6 +22,11 @@ jobs:
           name: build
           command: |
             ./gradlew clean assemble
+            
+      - run:
+          name: Run Tests
+          command: |
+            ./gradlew lint test
           
     
             

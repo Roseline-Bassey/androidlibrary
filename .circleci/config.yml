@@ -50,16 +50,16 @@ update_cache: &update_cache
     key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
 
       # The next step will run the unit tests
-      - android/run-tests:
+  - android/run-tests:
           test-command: ./gradlew lint testDebug --continue
 
       # Then start the emulator and run the Instrumentation tests!
-      - android/start-emulator-and-run-tests:
+ - android/start-emulator-and-run-tests:
           test-command: ./gradlew connectedDebugAndroidTest
           system-image: system-images;android-25;google_apis;x86
 
       # And finally run the release build
-      - run:
+ - run:
           name: Andriod build
           command: |
             ./gradlew clean assembleRelease

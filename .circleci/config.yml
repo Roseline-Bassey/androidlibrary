@@ -1,9 +1,19 @@
-jobs:
-  build:
-    docker:
-      - image: cimg/android:2023.02
+
+version: 2.1
+
+orbs:
+  android: circleci/android@1.0.3
+ 
+  build-and-test:
+    
+    executor:
+      name: android/android-machine
+
+
     steps:
+      # Checkout the code as the first step.
       - checkout
+        
 
 config_env: &config_env
   environment:
@@ -37,20 +47,27 @@ update_cache: &update_cache
     paths:
       - ~/.gradle/caches
       - ~/.gradle/wrapper
-    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
 
+      # The next step will run the unit tests
+      - android/run-tests:
+          test-command: ./gradlew lint testDebug --continue
 
-  run :
-       name: Build android 
+      # Then start the emulator and run the Instrumentation tests!
+      - android/start-emulator-and-run-tests:
+          test-command: ./gradlew connectedDebugAndroidTest
+          system-image: system-images;android-25;google_apis;x86
+
+      # And finally run the release build
+      - run:
+          name: Andriod build
           command: |
-            cd androidlibrary
-            ./gradlew clean assembly
+            ./gradlew clean assembleRelease
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  build-workflow:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build
-
-
-
-
-
+      - build-and-test

@@ -1,14 +1,8 @@
-
 version: 2.1
-
-orbs:
-  android: circleci/android@1.0.3
- 
-  build-and-test:
-    
-    executor:
-      name: android/android-machine
-
+jobs:
+  build:
+    docker:
+      - image: cimg/android:2023.02
 
     steps:
       # Checkout the code as the first step.
@@ -25,9 +19,9 @@ orbs:
     update_sdk: &update_sdk
       run:
         name: Update SDK
-          command: |
-            yes | sdkmanager --licenses || true
-            sdkmanager "platform-tools" "platforms;android-31"
+        command: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platform-tools" "platforms;android-31"
     restore_cache: &restore_cache
       restore_cache:
         key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
@@ -50,18 +44,18 @@ orbs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle"
 
       # The next step will run the unit tests
-  - android/run-tests:
-      test-command: ./gradlew lint testDebug --continue
+    android/run-tests:
+        test-command: ./gradlew lint testDebug --continue
 
       # Then start the emulator and run the Instrumentation tests!
-  - android/start-emulator-and-run-tests:
-       test-command: ./gradlew connectedDebugAndroidTest
-       system-image: system-images;android-25;google_apis;x86
+    android/start-emulator-and-run-tests:
+        test-command: ./gradlew connectedDebugAndroidTest
+        system-image: system-images;android-25;google_apis;x86
 
       # And finally run the release build
-  - run:
+    run:
         name: Andriod build
-         command: |
+        command: |
          ./gradlew clean assembleRelease
 
 # Invoke jobs via workflows

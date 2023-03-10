@@ -19,7 +19,7 @@ jobs:
           command: ./gradlew clean assemble
       - run: 
          name: test
-         command: ./gradlew test tasks
+         command: ./gradlew test
           #clean build connectedCheck --stacktrace --no-daemon --build-cache
       - save_cache:
           paths:

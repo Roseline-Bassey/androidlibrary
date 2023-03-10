@@ -20,7 +20,7 @@ jobs:
           
       - run: 
          name: test
-         command: ./gradlew testassembleDemoBasicDebugUnitTest
+         command: ./gradlew test assembleDemoBasicDebugUnitTest
       - save_cache:
           paths:
             - ~/.gradle

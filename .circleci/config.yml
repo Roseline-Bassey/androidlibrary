@@ -14,13 +14,10 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
-      - run:
-          name: Build and test
-          command: ./gradlew clean assemble
+      
       - run: 
          name: test
-         command: ./gradlew testDebug
-          #clean build connectedCheck --stacktrace --no-daemon --build-cache
+         command: ./gradlew clean build connectedCheck --stacktrace --no-daemon --build-cache
       - save_cache:
           paths:
             - ~/.gradle

@@ -16,7 +16,10 @@ jobs:
             - v1-dependencies-
       - run:
           name: Build and test
-          command: ./gradlew build test
+          command: ./gradlew clean assemble
+      - run: 
+         name: test
+         command: ./gradlew connectedSnapshotBasicDebugAndroidTest
           #clean build connectedCheck --stacktrace --no-daemon --build-cache
       - save_cache:
           paths:

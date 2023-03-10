@@ -1,7 +1,7 @@
 version: 2.1
 jobs:
   build:
-    working_directory: ~/code
+    working_directory: ~/project
     docker:
       - image: circleci/android:api-30-node
     steps:
@@ -14,6 +14,13 @@ jobs:
           name: Install dependencies
           command: |
             echo y | sdkmanager "platforms;android-29" "build-tools;29.0.3"
+            sudo apt-get update && sudo apt-get install -y \
+              openjdk-11-jdk \
+              wget \
+              unzip
+            wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+            unzip -q sdk-tools-linux-4333796.zip -d android-sdk-linux
+            echo y | android-sdk-linux/tools/bin/sdkmanager "platforms;android-29" "build-tools;29.0.3"
       - save_cache:
           paths:
             - ~/.gradle

@@ -1,29 +1,36 @@
-
 version: 2.1
+
 jobs:
   build:
-    working_directory: ~/project
     docker:
-      - image: circleci/android:api-31
-    environment:
-      JVM_OPTS: -Xmx3200m
-      GRADLE_OPTS: -Dorg.gradle.daemon=false
+      - image: circleci/android:api-30
+    working_directory: ~/project
     steps:
       - checkout
+      - run:
+          name: Setup Gradle
+          command: echo y | sdkmanager "ndk;21.4.7075529"
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
-      - run:
-          name: Download dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+
       - run:
           name: Build and test project
           command: ./gradlew build test
+          
+       - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+      - store_test_results:
+          path: app/build/test-results
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build   
 
 
 

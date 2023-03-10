@@ -1,40 +1,52 @@
 version: 2.1
+
 jobs:
   build:
     docker:
       - image: circleci/android:api-30
-    #working_directory: ~/androidlibrary_lib
+    working_directory: ~/project
     steps:
       - checkout
       - run:
-         
-          name: chmod permissions
-          command: chmod +x ./gradlew
-          
+          name: Setup Gradle
+          command: echo y | sdkmanager "ndk;21.4.7075529"
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
       - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-          
-      - run:
-          command: ls
-       
-      - run:
-          name: build
-          command: |
-            ./gradlew clean assemble
-            
-      - run:
-          name: Run Tests
-          command: |
-            ./gradlew connectedSnapshotBasicDebugAndroidTest
-            ./gradlew connectedDemoBasicDebugAndroidTest
-    
-            
+          name: Build and test
+          command: ./gradlew clean build connectedCheck --stacktrace --no-daemon --build-cache
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+      - store_test_results:
+          path: app/build/test-results
+
 workflows:
   version: 2
-  build:
+  build_and_test:
     jobs:
       - build
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             
 
             

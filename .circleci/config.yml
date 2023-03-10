@@ -1,36 +1,36 @@
 version: 2.1
-
 jobs:
   build:
-    docker:
-      - image: circleci/android:api-30
     working_directory: ~/project
+    docker:
+      - image: cimg/android:2023.02
     steps:
       - checkout
-      - run:
-          name: Setup Gradle
-          command: echo y | sdkmanager "ndk;21.4.7075529"
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "build.gradle" }}
             - v1-dependencies-
       - run:
-          name: Build and test
-          command: ./gradlew clean assemble
-      - run: 
-         name: test
-         command: ./gradlew testDebug
-          #clean build connectedCheck --stacktrace --no-daemon --build-cache
+          name: Install dependencies
+          
+          command: ./gradlew androidDependencies
+          
       - save_cache:
           paths:
             - ~/.gradle
+            - ~/.android
           key: v1-dependencies-{{ checksum "build.gradle" }}
-      - store_test_results:
-          path: app/build/test-results
+      
+      - run:
+          name: Build project
+          command: ./gradlew clean assemble
+      - run:
+          name: Run unit tests
+          command: ./gradlew test
+          
 
 workflows:
-  version: 2
-  build_and_test:
+  build:
     jobs:
       - build
 
@@ -50,49 +50,3 @@ workflows:
 
 
 
-            
-
-            
-            
-      #./gradlew -p androidlibrary_lib testDebugUnitTest
-
-
-#version: 2.1
-
-
-
-# Define a job to be invoked later in a workflow.
-
-#jobs:
-   #build:
-    #docker:
-      #- image: cimg/android:2023.02
-    #steps:
-      #- checkout
-          
-          
-      #- run:
-          #name: chmod permissions
-          #command: chmod +x ./gradlew
-          
-      #- run:
-          #name: Download Dependencies
-          #command: ./gradlew androidDependencies
-          
-      
-          
-      #- store_artifacts:
-          #path: app/build/reports
-          #destination: reports
-      
-  
-      #- run:
-          #name: Assemble release build
-          #command: |
-            #./gradlew clean assemble
-            
-# Invoke jobs via workflows
-#workflows:
-  #android-workflow: 
-    #jobs:
-      #- build

@@ -1,7 +1,6 @@
 /**************************************************************************************************
  GRADLE CONFIG
  *************************************************************************************************/
-
 if ((new File(gradle.local)).exists()) {
     apply from: gradle.local
 } else {
@@ -19,7 +18,6 @@ apply plugin: "maven-publish"
 group = groupId
 
 apply plugin: 'jacoco'
-
 jacoco {
     toolVersion = "0.8.2"
 }

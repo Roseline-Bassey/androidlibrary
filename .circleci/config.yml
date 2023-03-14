@@ -27,13 +27,6 @@ jobs:
           name: Run unit tests
           command: ./gradlew test
 
-      - run:
-          name: Deploy 
-          command: |
-            uses: actions/setup-java@v1
-            with:
-            java-version: 1.8
-
       - run:      
           name: Publish package
           command: mvn publish org.android.androidlibrary 1.0-SNAPSHOT -GITHUB_USERNAME=${Roseline_Bassey} -GITHUB_TOKEN=${JAVA_TOKEN} -mavenUrl=https://maven.pkg.github.com/Roseline-Bassey/androidlibrary

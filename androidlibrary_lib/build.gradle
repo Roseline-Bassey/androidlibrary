@@ -138,8 +138,8 @@ publishing {
             name = "Githubpackage"
             url = url("https://maven.pkg.github.com/<Roseline_Bassey>/<androidlibrary>")
             credentials {
-                username = System.getenv("Github.User")
-                password = System.getenv("Github.Token")
+                username = System.getenv("Roseline-Bassey")
+                password = System.getenv("GITHUB_TOKEN")
 
             }
         }

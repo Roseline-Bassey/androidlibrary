@@ -36,10 +36,7 @@ jobs:
 
       - run:      
           name: Publish package
-          command: mvn -B deploy
-          env: 
-            JAVA_TOKEN: ${{ secrets.JAVA_TOKEN }}
-          
+          command: mvn publish org.android.androidlibrary 1.0-SNAPSHOT -GITHUB_USERNAME=${Roseline_Bassey} -GITHUB_TOKEN=${JAVA_TOKEN} -mavenUrl=https://maven.pkg.github.com/Roseline-Bassey/androidlibrary
 
 workflows:
   build:

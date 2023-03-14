@@ -30,11 +30,11 @@ jobs:
       - run:
           name: Authenticate with GitHub Packages
           command: |
-            echo "//maven.pkg.github.com/<Roseline_Bassey>/<androidlibrary>/:username=${Roseline_Bassey}" >> ~/.gradle/gradle.properties
-            echo "//maven.pkg.github.com/<Roseline_Bassey>/<androidlibrary>/:password=${GITHUB_TOKEN}" >> ~/.gradle/gradle.properties
+            echo "//maven.pkg.github.com/<roseline-bassey>/<androidlibrary>/:username=${Github.User}" >> ~/.gradle/gradle.properties
+            echo "//maven.pkg.github.com/<roseline-bassey>/<androidlibrary>/:password=${Github.Token}" >> ~/.gradle/gradle.properties
             
       - run:
-          name: Build and publish library to GitHub Packages
+          name: Publish library to GitHub Packages
           command: |
             ./gradlew clean publish
 

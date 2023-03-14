@@ -27,9 +27,13 @@ jobs:
           name: Run unit tests
           command: ./gradlew test
 
-      - run:
-          name: Deploy
-          command: mvn clean deploy
+      -uses: actions/setup-java@v1
+               with:
+                  java-version: 1.8
+          -name: Publish package
+          run: mvn -B deploy
+          env:
+          JAVA_TOKEN: ${{ secrets.JAVA_TOKEN }}
           
 
 workflows:

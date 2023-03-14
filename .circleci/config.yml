@@ -27,10 +27,18 @@ jobs:
           name: Run unit tests
           command: ./gradlew test
 
-      - run:      
-          name: Publish package
-          command: mvn publish org.android.androidlibrary 1.0-SNAPSHOT -GITHUB_USERNAME=${Roseline_Bassey} -GITHUB_TOKEN=${JAVA_TOKEN} -mavenUrl=https://maven.pkg.github.com/Roseline-Bassey/androidlibrary
+      - run:
+          name: Authenticate with GitHub Packages
+          command: |
+            echo "//maven.pkg.github.com/<Roseline_Bassey>/<androidlibrary>/:username=${Roseline_Bassey}" >> ~/.gradle/gradle.properties
+            echo "//maven.pkg.github.com/<Roseline_Bassey>/<androidlibrary>/:password=${GITHUB_TOKEN}" >> ~/.gradle/gradle.properties
+            
+      - run:
+          name: Build and publish library to GitHub Packages
+          command: |
+            ./gradlew clean publish
 
+      
 workflows:
   build:
     jobs:

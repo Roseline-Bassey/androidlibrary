@@ -27,13 +27,18 @@ jobs:
           name: Run unit tests
           command: ./gradlew test
 
-      -uses: actions/setup-java@v1
-               with:
-                  java-version: 1.8
-          -name: Publish package
-          run: mvn -B deploy
-          env:
-          JAVA_TOKEN: ${{ secrets.JAVA_TOKEN }}
+      - run:
+          name: Deploy 
+          command: |
+            uses: actions/setup-java@v1
+            with:
+            java-version: 1.8
+
+      - run:      
+          name: Publish package
+          command: mvn -B deploy
+          env: 
+            JAVA_TOKEN: ${{ secrets.JAVA_TOKEN }}
           
 
 workflows:

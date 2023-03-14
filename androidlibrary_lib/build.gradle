@@ -133,8 +133,18 @@ publishing {
             artifactPattern('[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]')
         }
     }
-}
+    repositories {
+        maven {
+            name = "Githubpackage"
+            url = url("https://maven.pkg.github.com/<Roseline_Bassey>/<androidlibrary>")
+            credentials {
+                username = System.getenv("gpr.usr")
+                password = System.getenv("gpr.key")
 
+            }
+        }
+    }
+}
 
 task spawnSnapshotBasicArchives {
     dependsOn('snapshotVersion')

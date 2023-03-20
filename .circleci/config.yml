@@ -42,12 +42,12 @@ jobs:
 
       
 workflows:
-  build:
+  build-and-deploy:
     jobs:
       - build
-  deploy:
-    jobs:
-      - deploy
+      - deploy:
+          requires:
+            - build
 
 
 

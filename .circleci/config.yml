@@ -29,11 +29,11 @@ jobs:
 
  
       - run:  
-          name: Authenticate Github
+          name: Authenticate with GitHub Packages
           command: |   
-            auth:
-              username: $GITHUB_USERNAME
-              password: $GITHUB_TOKEN  
+               echo: $GITHUB_TOKEN 
+               echo: $GITHUB_USERNAME
+              
       - run:
           name: Deploy library to GitHub Packages 
           command: |

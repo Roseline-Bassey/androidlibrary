@@ -36,14 +36,27 @@ jobs:
           password: $GITHUB_TOKEN  
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
+      - run:
+          name: Install dependencies
+          command: ./gradlew androidDependencies
+          
+      - save_cache:
+          paths:
+            - ~/.gradle
+            - ~/.android
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+      
       - run:
           name: Build project
           command: ./gradlew clean assemble
-
       - run:
           name: Run unit tests
           command: ./gradlew test
-          
+
       - run:
           name: Deploy library to GitHub Packages 
           command: |

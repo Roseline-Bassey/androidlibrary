@@ -28,11 +28,14 @@ jobs:
           command: ./gradlew test
 
   deploy:
+    working_directory: ~/project
     docker:
       - image:  cimg/android:2023.02
-        auth:
-          username: $GITHUB_USERNAME
-          password: $GITHUB_TOKEN
+    steps:
+      - checkout
+    auth:
+      username: $GITHUB_USERNAME
+      password: $GITHUB_TOKEN
             
       - run:
           name: Publish library to GitHub Packages

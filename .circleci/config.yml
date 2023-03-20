@@ -29,9 +29,9 @@ jobs:
 
       - run:
           name: Authenticate with GitHub Packages
-          command: |
-            echo "//maven.pkg.github.com/<roseline-bassey>/<androidlibrary>/:username=${Roseline-Bassey}" >> ~/.gradle/gradle.properties
-            echo "//maven.pkg.github.com/<roseline-bassey>/<androidlibrary>/:password=${GITHUB_TOKEN}" >> ~/.gradle/gradle.properties
+          auth:
+            username: $GITHUB_USERNAME
+            password: $GITHUB_TOKEN
             
       - run:
           name: Publish library to GitHub Packages

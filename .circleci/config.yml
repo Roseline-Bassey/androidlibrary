@@ -27,23 +27,25 @@ jobs:
           name: Run unit tests
           command: ./gradlew test
 
-deploy:
-  docker:
-    - image:  cimg/android:2023.02
-      auth:
-        username: $GITHUB_USERNAME
-        password: $GITHUB_TOKEN
+  deploy:
+    docker:
+      - image:  cimg/android:2023.02
+        auth:
+          username: $GITHUB_USERNAME
+          password: $GITHUB_TOKEN
             
       - run:
           name: Publish library to GitHub Packages
           command: |
-             mvn clean deploy
+            mvn clean deploy
 
       
 workflows:
   build:
     jobs:
       - build
+  deploy:
+    jobs:
       - deploy
 
 

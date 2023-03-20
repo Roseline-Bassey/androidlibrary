@@ -31,8 +31,8 @@ jobs:
       - run:  
           name: Authenticate with GitHub Packages
           command: |   
-               echo: $GITHUB_TOKEN 
-               echo: $GITHUB_USERNAME
+               echo $GITHUB_TOKEN 
+               echo $GITHUB_USERNAME
               
       - run:
           name: Deploy library to GitHub Packages 

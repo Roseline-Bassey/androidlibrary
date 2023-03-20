@@ -35,6 +35,15 @@ jobs:
           username: $GITHUB_USERNAME
           password: $GITHUB_TOKEN  
     steps:
+      - checkout
+      - run:
+          name: Build project
+          command: ./gradlew clean assemble
+
+      - run:
+          name: Run unit tests
+          command: ./gradlew test
+          
       - run:
           name: Deploy library to GitHub Packages 
           command: |

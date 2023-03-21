@@ -25,31 +25,24 @@ jobs:
           command: ./gradlew clean assemble
       - run:
           name: Run unit tests
-          command: ./gradlew test
+          command: ./gradlew test1
 
-  deploy:
-    working_directory: ~/project
-    docker:
-      - image:  cimg/android:2023.02
-    steps:
-      - checkout
-    auth:
-      username: $GITHUB_USERNAME
-      password: $GITHUB_TOKEN
+      - run:
+          name: Authenticate with GitHub Packages
+          command: |
+            echo "//maven.pkg.github.com/<roseline-bassey>/<androidlibrary>/:username=${Roseline-Bassey}" >> ~/.gradle/gradle.properties
+            echo "//maven.pkg.github.com/<roseline-bassey>/<androidlibrary>/:password=${GITHUB_TOKEN}" >> ~/.gradle/gradle.properties
             
       - run:
           name: Publish library to GitHub Packages
           command: |
-            mvn clean deploy
+             mvn clean deploy
 
       
 workflows:
   build:
     jobs:
       - build
-  deploy:
-    jobs:
-      - deploy
 
 
 

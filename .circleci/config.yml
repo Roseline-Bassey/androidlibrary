@@ -25,24 +25,27 @@ jobs:
           command: ./gradlew clean assemble
       - run:
           name: Run unit tests
-          command: ./gradlew test1
+          command: ./gradlew test
 
-      - run:
+ 
+      - run:  
           name: Authenticate with GitHub Packages
-          command: |
-            echo "//maven.pkg.github.com/<roseline-bassey>/<androidlibrary>/:username=${Roseline-Bassey}" >> ~/.gradle/gradle.properties
-            echo "//maven.pkg.github.com/<roseline-bassey>/<androidlibrary>/:password=${GITHUB_TOKEN}" >> ~/.gradle/gradle.properties
-            
+          command: |   
+               echo $GITHUB_TOKEN 
+               echo $GITHUB_USERNAME
+              
       - run:
-          name: Publish library to GitHub Packages
+          name: Deploy library to GitHub Packages 
           command: |
-             mvn clean deploy
+            mvn clean deploy
 
       
 workflows:
   build:
     jobs:
       - build
+  
+          
 
 
 

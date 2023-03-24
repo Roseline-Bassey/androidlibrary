@@ -37,6 +37,7 @@ jobs:
       - run:
           name: Deploy library to GitHub Packages 
           command: |
+            mvn package
             mvn clean deploy
 
       

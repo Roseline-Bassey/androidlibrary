@@ -25,7 +25,7 @@ jobs:
           command: ./gradlew clean assemble
       - run:
           name: Run unit tests
-          command: ./gradlew test
+          command: ./gradlew clean test
 
  
       - run:  

@@ -25,7 +25,9 @@ jobs:
           command: ./gradlew clean assemble
       - run:
           name: Run Tests
-          command: ./gradlew connectedCheck
+          command: |
+            ./gradlew test
+            ./gradlew connectedCheck
 
       - store_test_results:
             path: androidlibrary_lib/build/test-results

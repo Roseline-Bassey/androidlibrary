@@ -91,13 +91,13 @@ workflows:
   build_test_and_deploy:
     jobs:
       - build
-      - instrumented tests
+      - instrumented tests:
           requires:
             - build
-      - local unit tests
+      - local unit tests:
           requires:
             - build
-      - deploy library to github package
+      - deploy library to github package:
           requires:
             - instrumented tests
             - local unit tests

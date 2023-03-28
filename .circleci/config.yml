@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   android: circleci/android@2.2.0
 jobs:
-  instrumented-test:
+  instrumented-tests:
     executor:
       name: android/android-machine
       resource-class: large
@@ -86,20 +86,20 @@ jobs:
             mvn clean deploy
 
       
-workflows:
-  build_and_deploy:
-    jobs:
-      - build
-      - instrumented-tests:
-          requires:
-            - build
-      - local unit tests:
-          requires:
-            - build
-      - deploy library to github package:
-          requires:
-            - instrumented-tests
-            - local unit tests
+  workflows:
+    build_and_deploy:
+      jobs:
+        - build
+        - instrumented-tests:
+            requires:
+              - build
+        - local unit tests:
+            requires:
+              - build
+        - deploy library to github package:
+            requires:
+              - instrumented-tests
+              - local unit tests
 
 
   

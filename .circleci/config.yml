@@ -23,16 +23,57 @@ jobs:
       - run:
           name: Build project
           command: ./gradlew clean assemble
+
+  instrumented tests:
+    orbs:
+      android: circleci/android@2.2.0
+    executor:
+      name: android/android-machine
+      resource-class: large
+    steps:
+      - checkout
+        # Create an AVD named "myavd"
+      - android/create-avd:
+          avd-name: myavd
+          system-image: system-images;android-29;default;x86
+          install: true
+        # By default, after starting up the emulator, a cache will be restored,
+        # "./gradlew assembleDebugAndroidTest" will be run and then a script
+        # will be run to wait for the emulator to start up.
+        # Specify the "post-emulator-launch-assemble-command" command to override
+        # the gradle command run, or set "wait-for-emulator" to false to disable
+        # waiting for the emulator altogether.
+      - android/start-emulator:
+          avd-name: myavd
+          no-window: true
+          restore-gradle-cache-prefix: v1a
+        # Runs "./gradlew connectedDebugAndroidTest" by default.
+        # Specify the "test-command" parameter to customize the command run.
+      - android/run-tests
+      - android/save-gradle-cache:
+          cache-prefix: v1a
+
+
+  local unit tests:
+    working_directory: ~/project
+    docker:
+      - image: cimg/android:2023.02
+    steps:
+      - checkout
       - run:
-          name: Run Tests
+          name: Run Local UnitTests
           command: |
             ./gradlew test
-            ./gradlew connectedCheck
 
       - store_test_results:
             path: androidlibrary_lib/build/test-results
 
- 
+  deploy library to github package:
+    working_directory: ~/project
+    docker:
+      - image: cimg/android:2023.02
+    steps:
+      - checkout
       - run:  
           name: Authenticate with GitHub Packages
           command: |   
@@ -40,16 +81,28 @@ jobs:
                echo $GITHUB_USERNAME
               
       - run:
-          name: Deploy library to GitHub Packages 
+          name: Deploy GitHub Packages
           command: |
             mvn package
             mvn clean deploy
 
       
 workflows:
-  build:
+  build_test_and_deploy:
     jobs:
       - build
+      - instrumented tests
+          requires:
+            - build
+      - local unit tests
+          requires:
+            - build
+      - deploy library to github package
+          requires:
+            - instrumented tests
+            - local unit tests
+
+
   
           
 

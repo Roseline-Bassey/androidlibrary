@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  android: circleci/android@2.2.0
 jobs:
   build:
     working_directory: ~/project
@@ -25,8 +27,6 @@ jobs:
           command: ./gradlew clean assemble
 
   instrumented tests:
-    orbs:
-      android: circleci/android@2.2.0
     executor:
       name: android/android-machine
       resource-class: large

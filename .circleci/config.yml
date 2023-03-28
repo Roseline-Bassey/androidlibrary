@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   android: circleci/android@2.2.0
 jobs:
-  instrumented-tests:
+  test:
     executor:
       name: android/android-machine
       resource-class: large
@@ -29,77 +29,10 @@ jobs:
       - android/save-gradle-cache:
           cache-prefix: v1a
 
-  build:
-    working_directory: ~/project
-    docker:
-      - image: cimg/android:2023.02
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
-            - v1-dependencies-
-      - run:
-          name: Install dependencies
-          command: ./gradlew androidDependencies
-          
-      - save_cache:
-          paths:
-            - ~/.gradle
-            - ~/.android
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-      
-      - run:
-          name: Build project
-          command: ./gradlew clean assemble
-
-  local unit tests:
-    working_directory: ~/project
-    docker:
-      - image: cimg/android:2023.02
-    steps:
-      - checkout
-      - run:
-          name: Run Local UnitTests
-          command: |
-            ./gradlew test
-
-      - store_test_results:
-            path: androidlibrary_lib/build/test-results
-
-  deploy library to github package:
-    working_directory: ~/project
-    docker:
-      - image: cimg/android:2023.02
-    steps:
-      - checkout
-      - run:  
-          name: Authenticate with GitHub Packages
-          command: |   
-               echo $GITHUB_TOKEN 
-               echo $GITHUB_USERNAME
-              
-      - run:
-          name: Deploy GitHub Packages
-          command: |
-            mvn package
-            mvn clean deploy
-
-      
-  workflows:
-    build_and_deploy:
-      jobs:
-        - build
-        - instrumented-tests:
-            requires:
-              - build
-        - local unit tests:
-            requires:
-              - build
-        - deploy library to github package:
-            requires:
-              - instrumented-tests
-              - local unit tests
+workflows:
+  test:
+    jobs:
+      - test
 
 
   

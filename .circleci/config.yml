@@ -51,9 +51,9 @@ jobs:
           key: gradle-v1-{{ arch }}-{{ checksum "/tmp/gradle_cache_seed" }}
       - run:
           # run in parallel with the emulator starting up, to optimize build time
-          name: Run assembleDebugAndroidTest task
+          name: Run compileDemoBasicDebugJavaWithJavac task
           command: |
-            ./gradlew assembleDebugAndroidTest
+            ./gradlew compileDemoBasicDebugJavaWithJavac
       - run:
           name: Wait for emulator to start
           command: |

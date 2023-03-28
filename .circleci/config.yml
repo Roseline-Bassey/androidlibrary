@@ -24,10 +24,9 @@ jobs:
           name: Build project
           command: ./gradlew clean assemble
 
-  build_and_test:
+  instrumented_test:
     machine:
       image: android:202102-01
-    # To optimize build times, we recommend "large" and above for Android-related jobs
     resource_class: large
     steps:
       - checkout
@@ -88,6 +87,8 @@ jobs:
           paths:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
+      - store_test_results:
+          path: androidlibrary_lib/build/reports/androidTests/connected/flavors/demoBasic/index.html
 
   local unit tests:
     working_directory: ~/project
@@ -101,7 +102,7 @@ jobs:
             ./gradlew test
 
       - store_test_results:
-            path: androidlibrary_lib/build/test-results
+            path: androidlibrary_lib/build/reports
 
   deploy library to github package:
     working_directory: ~/project
@@ -126,7 +127,7 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - build_and_test:
+      - instrumented_test:
           requires:
             - build
       - local unit tests:
@@ -134,7 +135,7 @@ workflows:
             - build
       - deploy library to github package:
           requires:
-            - build_and_test
+            - instrumented_test
             - local unit tests
 
 

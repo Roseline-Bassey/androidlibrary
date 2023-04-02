@@ -112,16 +112,20 @@ jobs:
       - checkout
       - run:
           name: Authenticate with GitHub Packages
-          command: |   
-               echo $GITHUB_USERNAME
-               echo $GITHUB_TOKEN
+          command: |
+            mvn config set registry https://maven.pkg.github.com/roseline-bassey/androidlibrary
+            curl -fL https://maven.pkg.github.com/roseline-bassey/androidlibrary
+            echo $GITHUB_USERNAME
+            echo $GITHUB_TOKEN
+            
             
 
       - run:
           name: Deploy GitHub Packages
           command: |
             mvn package
-            mvn -Pgithub deploy
+            mvn deploy -Dgithub.username=${{GITHUB_USERNAME}} -Dgithub.password=${{GITHUB_TOKEN}} -s settings.xml
+        #mvn -Pgithub deploy
 
 
 

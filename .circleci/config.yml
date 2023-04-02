@@ -122,8 +122,7 @@ jobs:
           name: Deploy GitHub Packages
           command: |
             mvn package
-            mvn deploy -Pgithub.username=${{GITHUB_USERNAME}} -Pgithub.password=${{GITHUB_TOKEN}} -s settings.xml
-        #mvn -Pgithub deploy
+            mvn -Pgithub deploy
 
 
 

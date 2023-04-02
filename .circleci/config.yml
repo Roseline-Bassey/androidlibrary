@@ -113,14 +113,15 @@ jobs:
       - run:
           name: Authenticate with GitHub Packages
           command: |   
-               echo $GITHUB_TOKEN 
-               echo $GITHUB_USERNAME
+               echo ${GITHUB_TOKEN} 
+               echo ${GITHUB_USERNAME}
 
       - run:
           name: Deploy GitHub Packages
           command: |
             mvn package
-            mvn clean deploy
+            mvn -Pgithub deploy
+
 
 
 workflows:

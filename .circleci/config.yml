@@ -119,7 +119,7 @@ jobs:
       - run:
           name: Deploy GitHub Packages
           command: |
-            mvn -s ./settings.xml deploy
+            mvn -gs ./settings.xml deploy
 
 
 

@@ -115,11 +115,14 @@ jobs:
           command: |
             echo $GITHUB_USERNAME
             echo $GITHUB_TOKEN
-
+      - run:
+          name: Configure Maven
+          command: mkdir -p /home/circleci/.m2/ && \
+            cp -v ~/.m2/settings.xml /home/circleci/.m2/settings.xml
       - run:
           name: Deploy GitHub Packages
           command: |
-            mvn -gs ./settings.xml deploy
+            mvn -s ./settings.xml deploy
 
 
 

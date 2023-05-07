@@ -89,7 +89,7 @@ jobs:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
       - store_test_results:
-          path: androidlibrary_lib/build/outputs/androidTest-results/ $CIRCLE_TEST_REPORTS
+          path: androidlibrary\androidlibrary_lib\build\outputs\androidTest-results\connected\all\index.html
 
   local unit tests:
     working_directory: ~/project
@@ -103,7 +103,7 @@ jobs:
             ./gradlew clean test
 
       - store_test_results:
-            path: androidlibrary_lib/build/outputs $CIRCLE_ARTIFACTS
+          path: androidlibrary\androidlibrary_lib\build\test-results
 
 
   deploy library to github package:

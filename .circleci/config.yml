@@ -89,8 +89,7 @@ jobs:
             - ~/.gradle/caches
             - ~/.gradle/wrapper
       - store_test_results:
-          path: androidlibrary_lib/build/reports/androidTests/connected/flavors/demoBasic/index.html
-      - cp -r androidlibrary_lib/build/outputs/androidTest-results/ $CIRCLE_TEST_REPORTS
+          path: androidlibrary_lib/build/outputs/androidTest-results/ $CIRCLE_TEST_REPORTS
 
   local unit tests:
     working_directory: ~/project

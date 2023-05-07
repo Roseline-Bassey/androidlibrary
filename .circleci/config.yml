@@ -23,6 +23,8 @@ jobs:
       - run:
           name: Build project
           command: ./gradlew clean assemble
+    post:
+      - cp -r androidlibrary_lib/build/outputs $CIRCLE_ARTIFACTS
 
   instrumented_test:
     machine:
